@@ -2,9 +2,10 @@ title: 实用shell命令
 date: 2015-08-04 09:31:19
 tags: Shell
 description: 平时用的比较多的shell命令
+
 ---
 
-# 查看暂用CPU最大的10个进程
+# 查看占用CPU最大的10个进程
 
 ```
 $ ps au | awk 'NR>1 {print}'| sort -nrk +3 | awk '{print $3"\t"$11}' | head -10；
