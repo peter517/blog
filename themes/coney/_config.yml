@@ -13,7 +13,7 @@ menu:
 widgets: 
 - category
 - tag
-#- links
+- links
 #- rss
 #- tagcloud
 ## provide six widgets:category,tag,rss,archive,tagcloud,links.

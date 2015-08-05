@@ -1,6 +1,6 @@
 categories: Categories
 search: Search
-tags: Tags
+tags: 所有标签
 tagcloud: "Tag Cloud"
 prev: Prev
 next: Next
@@ -11,7 +11,7 @@ archive_b: "Archives: %s"
 page: "Page %d"
 recent_posts: "Recent Posts"
 menu: Menu
-links: Links
+links: 最近文章
 rss: RSS
 showsidebar: "Show Sidebar"
 hidesidebar: "Hide Sidebar"
