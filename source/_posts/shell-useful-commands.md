@@ -1,6 +1,6 @@
 title: 实用shell命令
 date: 2015-08-04 09:31:19
-tags: Shell
+tags: [Shell]
 description: 平时用的比较多的shell命令
 
 ---
@@ -110,3 +110,5 @@ $ grep -l str filenames
 $ grep -i -R --include="*.cpp" 'example' 
 ```
 >在当前目录及其子目录所有的.cpp文件中查找字符串"example", 不区分大小写
+
+##版权声明：本文为博主原创文章，转载请注明出处##
