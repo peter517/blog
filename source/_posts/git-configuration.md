@@ -25,7 +25,9 @@ alias gitweekshortlog="git shortlog --since=1.week.ago --author='pengjun' | grep
 alias gitfilelog="git log --follow -p"#查看文件的修改日志
 ```
 
-# 在命令行提示符后面显示git分支
+# 在命令行提示符后面显示Git分支
+明确当前的Git分支很重要，之前也不知道有这个功能，开发者频繁的需要查看当前分支，就觉得这个问题其他开发人员也遇到过，应该有解决办法
+Unix环境一般是服务器，需要显示登录名和主机名
 ## Unix
 ```bash
 parse_git_branch() {
@@ -47,7 +49,7 @@ NO_COLOR="\[\033[0m\]"
 export PS1="\w$GREEN\$(parse_git_branch)$NO_COLOR\$ "
 ```
 
-# meld配置 123
+# meld配置
 meld是Git本地合并冲突时候的UI界面，在~/.gitconfig里面进行如下配置
 ```bash
 [difftool "meld"]
