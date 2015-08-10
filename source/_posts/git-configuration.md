@@ -47,7 +47,7 @@ NO_COLOR="\[\033[0m\]"
 export PS1="\w$GREEN\$(parse_git_branch)$NO_COLOR\$ "
 ```
 
-# meld配置
+# meld配置 123
 meld是Git本地合并冲突时候的UI界面，在~/.gitconfig里面进行如下配置
 ```bash
 [difftool "meld"]
