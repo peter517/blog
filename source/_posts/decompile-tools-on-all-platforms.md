@@ -16,20 +16,20 @@ description: Unix、OSX、Windows平台中系统自带的反编译工具
 **ELF(Executable And Linkable)**是Unix体系中二进制文件格式，除了执行文件，还包括\*.so,\*.a，\*.o等文件
 
 ## PE
-**PE(Portable Executable)**是Windows平台的二进制格式，，除了exe执行文件，还包括\*.lib,\*.dll，\*.obj文件
+**PE(Portable Executable)**是Windows平台的二进制格式，，除了exe执行文件，还包括\*.lib,\*.dll，\*.obj等文件
 
 # 反编译工具
-反编译工具主要处理对象就是ELF和PE文件，更加平台划分，主要有以下一些工具
+反编译工具主要处理对象就是ELF和PE文件，根据平台划分，主要有以下一些工具
 ## Unix(Linux and OSX)
 ### nm 
-读取ELF文件中的符号表(OSX也有该命令)
+读取ELF文件中的符号表
 ```bash
 $ nm $elf_filename | grep $method_name
 ```
 > 查找ELF文件是否包含方法名$method_name
 
 ### strings 
-读取ELF文件中的可打印的字符串表(OSX也有该命令)
+读取ELF文件中的可打印的字符串表
 ```bash
 $ strings $elf_filename | grep $find_str
 ```
