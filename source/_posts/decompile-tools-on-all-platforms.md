@@ -1,5 +1,5 @@
 title: 主流平台的反编译工具
-tags: [decompile]
+tags: [Decompile]
 date: 2015-08-10 16:16:08
 description: Unix、OSX、Windows平台中系统自带的反编译工具
 ---
