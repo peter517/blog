@@ -4,37 +4,110 @@ date: 2015-08-10 16:16:08
 description: Unix、OSX、Windows平台中系统自带的反编译工具
 ---
 
-反编译在工程中是绝对的利器，我们主要用它来做一下几件事情：
+反编译在工程中是绝对的利器，我们通常用它来做一下几件事情：
 - 查找和修改二进制文件依赖的库路径
 - 查看二进制文件符号表，检查是否包涵某个函数
 - 查找二进制文件中的可打印字符串，可用来查看版本信息
 - 将多个二进制文件合并成同一个二进制文件
-- 将二进制文件不同系统架构版本合成同一个文件
 
 # 二进制文件格式
+主流二进制文件格式ELF和PE，是基于COFF(Common file format)而来，根据不同的操作系统有不同的特性
 ## ELF
-ELF是Unix体系中二进制文件格式
+**ELF(Executable And Linkable)**是Unix体系中二进制文件格式，除了执行文件，还包括\*.so,\*.a，\*.o等文件
 
 ## PE
+**PE(Portable Executable)**是Windows平台的二进制格式，，除了exe执行文件，还包括\*.lib,\*.dll，\*.obj文件
+
+# 反编译工具
+反编译工具主要处理对象就是ELF和PE文件，更加平台划分，主要有以下一些工具
+## Unix(Linux and OSX)
+### nm 
+读取ELF文件中的符号表(OSX也有该命令)
+```bash
+$ nm $elf_filename | grep $method_name
+```
+> 查找ELF文件是否包含方法名$method_name
+
+### strings 
+读取ELF文件中的可打印的字符串表(OSX也有该命令)
+```bash
+$ strings $elf_filename | grep $find_str
+```
+> 查找ELF文件是否包含可打印的字符串$find_str 
+
+### file 
+查看文件编译架构，从头文件中读取
+```bash
+$ file $elf_filename
+```
+> 查看ELF文件类型
+
+### libtool 
+libtool是对平台编译工具的封装，为不同平台提供一致接口，[开发文档](http://www.gnu.org/software/libtool/manual/libtool.html)
+```bash
+$ libtool -static -o $elf_filename $source_elf_filename1 $source_elf_filename2 ...
+```
+> 把$source_elf_filename1，$source_elf_filename2...合并为$elf_filename
+
+## Linux
+### readelf
+命令的名字就是read elf，用来读取ELF文件信息
+```bash
+$ readelf -h $elf_filename
+```
+> 读取elf文件头信息
+
+### objdump 
+objdump可以根据ELF文件来生成对应的汇编信息
+```bash
+$ objdump -x $elf_filename | grep NEED
+```
+> 获取ELF文件依赖的库
+
+## OSX
+### otool
+与readelf类似，用来读取ELF文件信息
+```bash
+$ otool -L $elf_filename
+```
+> 查找ELF文件依赖的库
+
+### lipo
+对ELF文件进行重构
+```bash
+$ lipo -info $elf_filename
+```
+> 查看ELF文件类型
 
 ```bash
-$ libtool -static -o $dst_lib_path $source_lib_path1 $source_lib_path2 ...
+$ lipo -create $elf_file_i386_name.a $elf_file_arm_name.a -output $elf_filename
 ```
+> 把不同平台的ELF文件合并成同一文件
+
+
+### install_name_tool
+用来更改ELF文件的依赖文件路径
+```bash
+$ install_name_tool -change $elf_file_name $elf_file_depends_path_before $elf_file_depends_path_after
+```
+> 把$elf_file_name文件依赖路径由$elf_file_depends_path_before改为$elf_file_depends_path_after
+
+## Windows
+### DUMPBIN
+与readelf类似，用来读取ELF文件信息
+```bash
+> dumpbin /exports $pe_file_name
+```
+> 查看PE文件的依赖库
 
 ```bash
-$ install_name_tool -change $file_path $file_depends_path_before $file_depends_path_after
+> dumpbin /all $pe_file_name | findstr $find_str
 ```
+> 查看PE文件中是否有可打印字符串$find_str
 
 ```bash
-$ otool -L $file_path
+> dumpbin /symbols $pe_file_name | findstr $method_name
 ```
-
-```bash
-$ lipo -info $file_path
-```
-```bash
-$ lipo -create $file_i386_path.a $file_arm_path.a -output $file_path
-```
-
+> 查看PE文件中包含方法名$method_name
 
 <font color="#FF0000">版权声明：本文为博主原创文章，转载请注明出处</font>
