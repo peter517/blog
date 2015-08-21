@@ -5,7 +5,10 @@ description: 百度实习时候MapReduce编程感悟
 
 ---
 
-在MapReduce框架下编写程序，最重要的是理解从map到reducer数据是如何组织的，核心的就是map到reducer的shuffle过程：**每个reducer接到的数据都是按key值排序后的，并且key值相同的记录会被分配到同一个reducer里面**，这一过程是框架自动完成，许多实例需要用到这一特性
+在MapReduce框架下编写程序，最重要的是理解从map到reducer数据是如何组织的，核心的就是map到reducer的shuffle过程：
+> 每个reducer接到的数据都是按key值排序后的，并且key值相同的记录会被分配到同一个reducer里面
+
+这一过程是框架自动完成，许多实例需要用到这一特性
 
 # 实现方式
 
