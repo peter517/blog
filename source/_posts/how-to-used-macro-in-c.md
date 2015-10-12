@@ -13,7 +13,7 @@ description:
 
 # 尽量不使用宏
 文本替换操作可以使用的场景很多，但是代码里面到处是宏，其他开发人员也很难阅读代码，《Effective C++》里面明确表示通过const、emum、inline语法来替代宏的使用。
-如下所示，相对于VAR_INT宏，使用var_int会写入符号表，编译起来报错会有“VAR_INT”信息，而不是单纯的一个“1”
+如下所示，相对于VAR_INT宏，使用VAR_INT会写入符号表，编译起来报错会有“VAR_INT”信息，而不是单纯的一个“1”
 
 ```c++
 #define VAR_INT 1
