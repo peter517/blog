@@ -7,6 +7,8 @@ description: 介绍GYP的基本功能以及和CMake的比较
 写的一手好代码固然难得，代码写好后可以方便的在各个平台完成编译部署，也需要找到好的工具，GYP就是其中一个，类似于CMake，提供了一套跨平台生成编译脚本或IDE工程的方案
 如下图所示，通过编写GYP脚本，就可以在不同平台下面生成对于的编译脚本或着IDE工程，比如Unix平台下面的Makefile或Ninja，Windows平台下面的VS工程，IOS平台下面的Xcode工程，从而达到一键构建的目的
 
+> GYP对于有支持跨平台的多语言编译，交叉编译需求的项目，是一个很好的选择
+
 ![cross-platform-script-framework](/img/cross-platform-script-framework.png)
 
 # 简单实例
@@ -42,7 +44,7 @@ description: 介绍GYP的基本功能以及和CMake的比较
           ],
           ['OS=="win"', {
             ...
-          }, { # OS != "win",
+          }, {OS != "win",
             ...
           }]
         ],
@@ -85,7 +87,7 @@ include其他gypi文件，如下所示：
          ],
 ```
 ## shell脚本执行
-在脚本里面执行shell命令，如下所示：
+在脚本里面执行shell命令，如下所示，BUILD_DATE可以在代码中打印出来，用来标示编译日期
 ```
 "defines": [
               'BUILD_DATE=<！(echo `date +%Y%m%d`)'
@@ -119,7 +121,9 @@ GYP出了支持生成编译C的脚本外，还支持第三方模块执行的接�
 },]
 ```
 ## direct_dependent_settings
-direct_dependent_settings表示依赖这个模块的模块也自动包含这个属性，比如入unit\_test这个模块依赖gtest这个模块，那么unit\_test会被设置“include_dirs”这个属性，把gtest这个模块中include的绝对路径添加为头文件搜索路径
+direct_dependent_settings表示依赖这个模块的模块也自动包含这个属性，比如入unit\_test这个模块依赖gtest这个模块，那么unit\_test会被设置“include_dirs”这个属性，把gtest这个模块中include的绝对路径添加为头文件搜索路径，
+> direct_dependent_settings的设计让使用其他模块更加方便，被依赖模块include路径变更对其他模块没有影响
+
 ```
 'targets': [
     {
@@ -148,7 +152,7 @@ direct_dependent_settings表示依赖这个模块的模块也自动包含这个�
 - 扩展性：action特性可以让GYP可以整合其他编译器，让C语言和其他语言一起一键编译
 - 模块化：GYP以targets为书写单元，模块性很好，CMake通过一行语句添加依赖的模块目录，GYP通过dependencies属性来设置依赖的targets
 - 源文件批量添加：GYP对批量添加源文件支持不好，CMake通过aux\_source\_directory命令轻松添加
-- 流行度：CMake在很多成熟的项目中使用，也有很多配套的工具，GYP起步比较晚，这块还需努力
+- 流行度：CMake在很多成熟的项目中使用，也有很多配套的工具，GYP起步比较晚，主要用在Chromium项目上面，这块还需努力
 
 
 <font color="#FF0000">版权声明：本文为博主原创文章，转载请注明出处</font>
