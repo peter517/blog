@@ -1,4 +1,4 @@
-title: MapReduce编程
+title: MapReduce编程思考
 date: 2015-08-04 22:44:40
 tags: [MapReduce]
 description: 百度实习时候MapReduce编程感悟

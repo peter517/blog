@@ -1,4 +1,4 @@
-title: Git 个人配置
+title: Git个人配置
 tags: [Git]
 date: 2015-08-10 14:18:28
 description: Git中比较方便的优化配置

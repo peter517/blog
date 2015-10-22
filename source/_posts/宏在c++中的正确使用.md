@@ -1,7 +1,7 @@
 title: 宏在c++中的正确使用
 tags: [C++]
 date: 2015-10-12 16:19:02
-description: 
+description: 宏在c++里面应该是最有个性的一个特点，虽然只是简单的文本替换，用的巧妙，它可以让代码行数变短，如果乱用，则代码会完全丧失可读性
 ---
 
 宏在c++里面应该是最有个性的一个特点，虽然只是简单的文本替换，但
@@ -24,6 +24,7 @@ const int VAR_INT = 1;
 那什么时候应该使用宏呢？有些内容，比如定义一个新的类或函数，c++里面只有模版可以对一个类进行抽象，还是有一些需求无法满足，使用宏会让代码更加简洁。
 如下面代码，单元测试框架代码，用P\_TEST\_宏来定义个一个**部分**新测试类，每次定义时用register_test_case方法来自动注册到TestManager中（也可以选择在构造函数中，但是这样要先new这个对象），这样就可以在main函数中执行队列中所有的测试案例
 ```c++
+namespace ptest {
 
 class TestClass{
     //...
@@ -42,6 +43,8 @@ class TestFactoryImpl : public TestFactoryBase{
 public:
     virtual TestCase* CreateTest() { return new TestClass; }
 };
+
+}
 
 #define P_TEST_CLASS_NAME_(test_case_name, test_name) \
 test_case_name##_##test_name##_Test
@@ -62,6 +65,8 @@ void P_TEST_CLASS_NAME_(test_case_name, test_name)::Run()
 
 #define PTEST(test_case_name, test_name) \
 P_TEST_(test_case_name, test_name, ptest::TestCase)
+
+
 ```
 利用宏定义一个测试案例
 ```c++
