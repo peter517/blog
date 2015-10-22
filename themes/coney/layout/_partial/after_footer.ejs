@@ -1,4 +1,5 @@
 <script src="<%- config.root %>js/jquery-2.1.0.min.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){ 
   $('.navbar').click(function(){
@@ -165,3 +166,24 @@ $(document).ready(function(){
 
 <%- partial('baidu_analytics') %>
 <%- partial('google_analytics') %>
+
+<% if (theme.fancybox){ %>
+<link rel="stylesheet" href="<%- config.root %>fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="<%- config.root %>fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+<% } %>
+
+<% if (config.search) { %>
+   <script type="text/javascript">      
+     var search_path = "<%= config.search.path %>";
+   if (search_path.length == 0) {
+    search_path = "search.xml";
+   }
+   var path = "<%= config.root %>" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+<% } %>

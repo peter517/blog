@@ -13,6 +13,7 @@ menu:
 widgets: 
 - category
 - tag
+- recent_posts
 #- links
 #- rss
 #- tagcloud
