@@ -30,13 +30,20 @@
                                         <input name="s" type="hidden" value= <%= theme.baidu_search.id %> ><input type="text" name="q" size="30" placeholder="<%= __('search') %>"><br>
 					<% } else { %>
 					<div id="site_search">
-   						<div class="form-group">
-    						<input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control"/>
-  						 </div>  
-  					<div id="local-search-result"></div>
-  					</div>
+   					
 					<% } %>
 					</li>
+				<li>
+						<form class="search">
+    						<input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" autocomplete="off" maxlength="20"/>
+  						  </form> 
+  				</li>
+  				<li>
+					<div id="local-search-result"></div>
+  					</div>
+  				</li>
 				</ul>
-                            </nav>			
+			
+				</ul>
+                 </nav>			
 </div>
