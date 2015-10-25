@@ -90,8 +90,8 @@ int main()
 表达编译时刻的CPU架构类型：比如\_\_arm\_\_表达移动平台arm芯片；\_\_i386\_\_表示的i386架构；\_\_x86\_64\_\_表示x86架构
 ## 编译器类型
 表达编译代码的编译器类型：比如\_\_GNUC\_\_表示GNU C++编译平台；\_MSC\_VER表示windows的Microsoft Visual C/C++平台；\_\_clang\_\_表示Mac下面的LLVM编译平台
-## c++实现版本
-表达实现c++规范的版本，也可以用来区分c和c++，根据__cplusplus来判断是否支持某种特性，如qt源码中qcompilerdetection.h的代码片段，表示如果c++版本晚于是2011年3月份，intel的编译器值大于1200，则支持LAMBDA等特性
+## C++实现版本
+表达实现C++规范的版本，也可以用来区分C和C++，根据__cplusplus来判断是否支持某种特性，如qt源码中qcompilerdetection.h的代码片段，表示如果C++版本晚于是2011年3月份，intel的编译器值大于1200，则支持LAMBDA等特性
 ```c++
 #  if __cplusplus >= 201103L || defined(__INTEL_CXX11_MODE__)
 #    if __INTEL_COMPILER >= 1200
