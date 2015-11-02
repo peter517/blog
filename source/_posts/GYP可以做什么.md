@@ -154,5 +154,4 @@ direct_dependent_settings表示依赖这个模块的模块也自动包含这个�
 - 源文件批量添加：GYP对批量添加源文件支持不好，CMake通过aux\_source\_directory命令轻松添加
 - 流行度：CMake在很多成熟的项目中使用，也有很多配套的工具，GYP起步比较晚，主要用在Chromium项目上面，这块还需努力
 
-
 <font color="#FF0000">版权声明：本文为博主原创文章，转载请注明出处</font>
