@@ -14,7 +14,6 @@ widgets:
 - category
 - tag
 - recent_posts
-- recent_comments
 #- links
 #- rss
 #- tagcloud

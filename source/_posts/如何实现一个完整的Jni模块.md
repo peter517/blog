@@ -9,7 +9,7 @@ description: 实现一个Jni模块的基本思路
 
 # 基本流程
 ## JNI_OnLoad
-C层加载动态库时调用的第一个函数就是JNI\_OnLoad，JNI\_OnLoad可以获得JavaVM是全局变量，通过JavaVM可以拿到JNIEnv来进行Jni常见操作（比如FindClass），不同的Jni模块共享同一个JavaVM，所以可以有一个工具模块，来管理JavaVM，同时封装在不同线程使用JNIEnv时调用AttachCurrentThread和DetachCurrentThread，其他Jni模块依赖这个工具模块来使用JNIEnv。
+C层加载动态库时调用的第一个函数就是JNI\_OnLoad，JNI\_OnLoad可以获得JavaVM是全局变量，通过JavaVM可以拿到JNIEnv来进行Jni常见操作（比如FindClass），不同的Jni模块共享同一个JavaVM，所以可以有一个工具模块，来管理JavaVM，同时在不同线程使用JNIEnv时封装调用AttachCurrentThread和DetachCurrentThread的逻辑，其他Jni模块依赖这个工具模块来使用JNIEnv。
 一般在在JNI\_OnLoad时进行RegisterNatives操作，具体代码如下，NativeTest里面的initNativeMethods方法会调用RegisterNatives
 ```c++
 extern "C" JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
