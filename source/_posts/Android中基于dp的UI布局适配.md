@@ -1,4 +1,4 @@
-title: 基于dp的Android UI 布局适配
+title: Android中基于dp的UI布局适配
 tags: [Android]
 date: 2015-08-06 09:01:06
 description: 用dp来做Android适配

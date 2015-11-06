@@ -1,4 +1,4 @@
-title: 实用shell命令
+title: Shell实用命令
 date: 2015-08-04 09:31:19
 tags: [Shell]
 description: 平时用的比较多的shell命令

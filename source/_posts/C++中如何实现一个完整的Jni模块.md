@@ -1,4 +1,4 @@
-title: 如何实现一个完整的Jni模块
+title: C++中如何实现一个完整的Jni模块
 tags: [Jni,C++,Java]
 date: 2015-11-05 10:27:41
 description: 实现一个Jni模块的基本思路
@@ -12,7 +12,7 @@ description: 实现一个Jni模块的基本思路
 C层加载动态库时调用的第一个函数就是JNI\_OnLoad，JNI\_OnLoad可以获得JavaVM是全局变量，通过JavaVM可以拿到JNIEnv来进行Jni常见操作（比如FindClass），不同的Jni模块共享同一个JavaVM，所以可以有一个工具模块，来管理JavaVM，同时在不同线程使用JNIEnv时封装调用AttachCurrentThread和DetachCurrentThread的逻辑，其他Jni模块依赖这个工具模块来使用JNIEnv。
 一般在在JNI\_OnLoad时进行RegisterNatives操作，具体代码如下，NativeTest里面的initNativeMethods方法会调用RegisterNatives
 ```c++
-extern "C" JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
+extern “C” JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
 {
     if (!NativeTest::initNativeMethods()) {
         return JNI_ERR;
@@ -179,5 +179,8 @@ Jni在本地局部或全局引用没有释放，超过内存句柄限制时会�
 - jobject类型本地局部命名以“jobject\_”开头，例如：jobject\_arraylist
 - jstring类型本地局部命名以“jstring\_”开头，例如：jstring\_id
 - jclass类型本地局部命名以“jclass\_”开头，例如：jclass\_test
+
+# 结论
+
 
 <font color="#FF0000">版权声明：本文为博主原创文章，转载请注明出处</font>
