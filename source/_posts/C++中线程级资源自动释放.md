@@ -36,8 +36,9 @@ void func()
 }
 ```
 # 线程级
-线程级别的资源应用场景不多，通常是一个全局静态变量，希望它在每个线程中有独立的拷贝。Jni中在获取JNIEnv时，在使用前要调用AttachCurrentThread，使用后要调用DetachCurrentThread，否则线程无法正常退出，这就给程序员比较大压力，我们需要想一种方法来封装这个操作，Qt中的全局JniEnv实现给了我们一种思路
+线程级别的资源应用场景不多，通常是一个全局静态变量，希望它在每个线程中有独立的拷贝，Android里面的Looper实现算是一个，这样每个线程都有自己的事件队列，互不干扰。
 ## Qt中全局JniEnv实现
+在Jni中，获取JNIEnv时，在使用前要调用AttachCurrentThread，使用后要调用DetachCurrentThread，否则线程无法正常退出，这就给程序员比较大压力，我们需要想一种方法来封装这个操作，Qt中的全局JniEnv实现给了我们一种思路
 如下面代码所示，有一个全局静态变量QJNIEnvironmentPrivateTLS，存放在QThreadStorage中，表示是线程局部变量，它的析构函数是执行DetachCurrentThread操作，表示在线程退出时会调用这个操作。
 ```c++
 class QJNIEnvironmentPrivateTLS
