@@ -23,7 +23,7 @@ extern “C” JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
 ## RegisterNatives
 通过RegisterNatives方法可以把Java层对应类的方法和C层对应的函数绑定起来，java_class代表Java层的对应类的class信息，所以这个绑定是函数元信息跟函数元信息的绑定，不涉及到具体实例
 ```c++
-jint RegisterNatives(jclass java_class, JNINativeMethod method, jint methodLen) 
+jint RegisterNatives(jclass java_class, JNINativeMethod method, jint methodLen)
 ```
 具体代码实例如下：
 ```c++
@@ -69,7 +69,7 @@ jlong NativeTest::createNativeTest(JNIEnv* env, jclass cls,jobject jobject_test_
 }
 jint NativeTest::destroyNativeTest(JNIEnv* env, jclass cls,jlong test_address)
 {
-    Test* test = reinterpret_cast<Test *>(test_address);
+    Test* test = reinterpret_cast<Test*>(test_address);
     if (test == NULL) {
         return -1;
     }
@@ -81,7 +81,7 @@ jint NativeTest::destroyNativeTest(JNIEnv* env, jclass cls,jlong test_address)
 ```c++
 jint NativeTest::start(JNIEnv* env, jclass cls,jlong test_address)
 {
-    Test* test = reinterpret_cast<Test *>(test_address);
+    Test* test = reinterpret_cast<Test*>(test_address);
     if (test == NULL) {
         return -1;
     }
