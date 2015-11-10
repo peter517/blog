@@ -90,7 +90,7 @@ include其他gypi文件，如下所示：
 在脚本里面执行shell命令，如下所示，BUILD_DATE可以在代码中打印出来，用来标示编译日期
 ```
 "defines": [
-              'BUILD_DATE=<！(echo `date +%Y%m%d`)'
+              'BUILD_DATE=<!(echo `date +%Y%m%d`)'
             ],
 ```
 # 特有功能

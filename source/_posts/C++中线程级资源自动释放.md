@@ -50,7 +50,7 @@ public:
     }
 };
 
-Q_GLOBAL_STATIC(QThreadStorage<QJNIEnvironmentPrivateTLS *>, jniEnvTLS)
+Q_GLOBAL_STATIC(QThreadStorage<QJNIEnvironmentPrivateTLS*>, jniEnvTLS)
 ```
 QJNIEnvironmentPrivate在构造函数中会获取JNIEnv，如果发现没有调用过AttachCurrentThread则马上Attach一下，
 > 每个线程在AttachCurrentThread时会在线程局部变量中初始化一个QJNIEnvironmentPrivateTLS实例，这样可以保证在线程退出时会调用相应的DetachCurrentThread操作
@@ -61,7 +61,7 @@ static const char qJniThreadName[] = "QtThread";
 QJNIEnvironmentPrivate::QJNIEnvironmentPrivate()
     : jniEnv(0)
 {
-    JavaVM *vm = QtAndroidPrivate::javaVM();
+    JavaVM* vm = QtAndroidPrivate::javaVM();
     const jint ret = vm->GetEnv((void**)&jniEnv, JNI_VERSION_1_6);
     if (ret == JNI_OK) // Already attached
         return;
@@ -86,14 +86,14 @@ JNIEnv *QJNIEnvironmentPrivate::operator->()
 ## JniEnv工具模块
 在[C++中如何实现一个完整的Jni模块](http://peter517.github.io/2015/11/05/C++%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4%E7%9A%84Jni%E6%A8%A1%E5%9D%97/#JNI_OnLoad)文章中有提到，可以有一个工具模块，来管理全局的JavaVM，其他Jni模块依赖这个工具模块来使用JNIEnv。上面的QJNIEnvironmentPrivate就是这个模块，代码如下，在JNI_OnLoad中在QtAndroidPrivate中保存JavaVM，其他模块中通过QtAndroidPrivate::javaVM()来获取JavaVM
 ```c++
-Q_CORE_EXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
+Q_CORE_EXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
 {
     //...
 
     if (vm->GetEnv(&uenv.venv, JNI_VERSION_1_6) != JNI_OK)
         return JNI_ERR;
 
-    JNIEnv *env = uenv.nenv;
+    JNIEnv* env = uenv.nenv;
     //save the JavaVM , get it by QtAndroidPrivate::javaVM()
     const jint ret = QT_PREPEND_NAMESPACE(QtAndroidPrivate::initJNI(vm, env));
     if (ret != 0)
