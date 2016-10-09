@@ -2,7 +2,6 @@ title: Unity常用第三方库
 tags: [Unity]
 date: 2016-09-18 19:27:48
 description: Unity开发中常用的第三方库
-
 ---
 
 相对于Android、IOS，Unity第三方库都是比较少的，而且成熟度不够，下面列举几个项目中经常会用到的第三方库
@@ -56,6 +55,7 @@ Unity设计目的是游戏开发，所以对视频播放支持不好，EasyMovie
 移动端都是调用原生的播放器，PC端用FFmpeg实现，还是Beta版本，移动端相对稳定一些。
 # DOTween
 DOTween用来实现3D的一些动画效果，比如一个物体从一个坐标移到另一个坐标，自己利用物理引擎实现比较麻烦。
+## 具体实现
 DOTween的实现方式比较特别，利用C#的特性为现有类增加方法，比如下面这个函数，表示移动的距离，第一个参数表示为Transform类增加方法
 ```
 public static Tweener DOMove (this Transform target, Vector3 endValue, float duration, bool snapping = false);
