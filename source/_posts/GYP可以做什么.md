@@ -95,7 +95,7 @@ include其他gypi文件，如下所示：
 ```
 # 特有功能
 ## action
-GYP出了支持生成编译C的脚本外，还支持第三方模块执行的接口action，这样就可以考虑到利用GYP编译其他语言，比如用javac编译Java、用ant来Android App、用yasm来编译汇编语言等。利用这个特性，还可以用来执行单元测试，下面就是在每次编译的时候，**根据“inputs”文件（func.cc、func.h、func_test_main.cc）是否有改变**，来执行单元测试out/Release/fun_test
+GYP出了支持生成编译C的脚本外，还支持第三方模块执行的接口action，action在对应target build之前执行，所以target_type一般为none。action可以用GYP编译其他语言，比如用javac编译Java、用ant来Android App、用yasm来编译汇编语言等。利用这个特性，还可以用来执行单元测试，下面就是在每次编译的时候，**根据“inputs”文件（func.cc、func.h、func_test_main.cc）是否有改变**，通过为run_fun_test的action来执行单元测试out/Release/fun_test
 ```
 'targets': [
     {
@@ -104,21 +104,28 @@ GYP出了支持生成编译C的脚本外，还支持第三方模块执行的接�
         'sources': [
            'test/func_test_main.cc',
         ],
-        'actions': [
-         {
+        'dependencies': [
+          'func',
+        ],
+    },
+    {
+        'target_name': 'run_fun_test',
+        'type': 'none',
+        'dependencies': [
+          'fun_test',
+        ],
+        'actions': [{
             'action_name': 'run_fun_test',
                 'inputs': [
                     'func.h',
                     'func.cc',
                     'test/func_test_main.cc',
                 ],
-                'outputs': [ 'fun_test.txt' ],
-                'action': [
-                    'out/Release/fun_test',
-                    ],
-                },
-         ],
-},]
+                'outputs': [ ' ' ],
+                'action': ['out/Release/fun_test'],
+        },],
+    },
+]
 ```
 ## direct_dependent_settings
 direct_dependent_settings表示依赖这个模块的模块也自动包含这个属性，比如入unit\_test这个模块依赖gtest这个模块，那么unit\_test会被设置“include_dirs”这个属性，把gtest这个模块中include的绝对路径添加为头文件搜索路径，
