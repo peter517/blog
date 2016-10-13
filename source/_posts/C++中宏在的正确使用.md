@@ -37,7 +37,7 @@ class TestFactoryBase{
 public:
     virtual TestCase* CreateTest()=0;
 };
-    
+
 template <class TestClass>
 class TestFactoryImpl : public TestFactoryBase{
 public:
@@ -78,8 +78,9 @@ PTEST(MyTestCase, Macro_Test_Name){
 ```c++
 int main()
 {
-    ptest::TestManager::GetInstance()->Run();
-    return 0;
+    int ret = ptest::TestManager::GetInstance()->Run();
+    assert(ret == 0)
+    return ret;
 }
 ```
 # 内置宏

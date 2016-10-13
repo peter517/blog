@@ -26,15 +26,21 @@ description: 介绍GYP的基本功能以及和CMake的比较
     ],
   },
 ```
+通过下面的命令生成编译脚本，gyp会根据不同的平台选择生成哪种编译文件
+```
+gyp --depth=. test.gyp
+```
+
 # 基本功能
 跟CMake这种跨平台脚本生成工具一样，GYP提供一个编译脚本所需要的基本功能
 ## 定义宏
 定义C中的宏，如下所示：
 ```
 'defines': [
-            'DEFINE_FOO',
-        ],
+        'DEFINE_FOO',
+    ],
 ```
+
 ## default变量
 通过OS变量判断当前操作系统平台，如下所示：
 ```
@@ -50,13 +56,15 @@ description: 介绍GYP的基本功能以及和CMake的比较
         ],
 ```
 除了OS变量，PRODUCT_DIR变量表示编译生成文件路径，DEPTH表示文件执行路径
+
 ## 模块依赖
 依赖其他GYP里面的target，如下所示，bar为bar.gyp里面的一个target\_name：
 ```
 'dependencies': [
-          '../bar/bar.gyp:bar',
-        ],
+      '../bar/bar.gyp:bar',
+    ],
 ```
+
 ## 变量定义
 定义变量，用来进行项目配置，如下所示：
 ```
@@ -64,6 +72,7 @@ description: 介绍GYP的基本功能以及和CMake的比较
       'is_enable_video': 'true'
     },
 ```
+
 ## include其他gyp文件
 include其他gypi文件，如下所示：
 ```
@@ -71,28 +80,32 @@ include其他gypi文件，如下所示：
       '../build/common.gypi',
     ],
 ```
+
 ## 包含头文件搜索路径
 如下所示：
 ```
 'include_dirs': [
-          'include',
-        ],
+      'include',
+    ],
 ```
+
 ## cflag设置
 如下所示：
 ```
 'cflags': [
-            '-Werror',
-            '-Wall',
-         ],
+      '-Werror',
+      '-Wall',
+    ],
 ```
+
 ## shell脚本执行
 在脚本里面执行shell命令，如下所示，BUILD_DATE可以在代码中打印出来，用来标示编译日期
 ```
 "defines": [
-              'BUILD_DATE=<!(echo `date +%Y%m%d`)'
-            ],
+      'BUILD_DATE=<!(echo `date +%Y%m%d`)'
+    ],
 ```
+
 # 特有功能
 ## action
 GYP出了支持生成编译C的脚本外，还支持第三方模块执行的接口action，action在对应target build之前执行，所以target_type一般为none。action可以用GYP编译其他语言，比如用javac编译Java、用ant来Android App、用yasm来编译汇编语言等。利用这个特性，还可以用来执行单元测试，下面就是在每次编译的时候，通过为run_fun_test的action来执行单元测试out/Release/fun_test
@@ -148,6 +161,17 @@ direct_dependent_settings表示依赖这个模块的模块也自动包含这个�
     },
 ]
 ```
+
+# 可配置的GYP
+gyp变量一般用来配置整个gyp工程，完成下面功能：
+- 选择哪些模块需要编译（平台不同、功能不同）
+- 定义不同宏，用来控制代码中不同逻辑
+
+可以通过文件定义gyp变量（一般放在gypi文件里面），也可以通过-D的方式生成编译文件是定义gyp变量
+```
+gyp --depth=. test.gyp -Denable_moudle=1
+```
+
 # GYP Vs CMake
 下图为GYP和CMake五个特性之间的比较：
 ![GYP_Vs_CMake](/img/GYP_Vs_CMake.png)
