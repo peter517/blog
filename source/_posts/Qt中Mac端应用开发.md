@@ -16,7 +16,7 @@ qt建立工程的三个关键文件：
 ```
 qmake -spec macx-xcode YourApp.pro
 ```
-pro文件跟gyp、CMake是一类工具，最大区别是内置QT的工程配置支持，比较重要的几个配置项
+pro文件跟gyp、CMake是一类工具，最大区别是内置QT的工程配置，重要的几个配置项：
 
 ### 基本信息
 ```
@@ -38,7 +38,7 @@ RESFILES.path = Contents/Resources
 QMAKE_BUNDLE_DATA += RESFILES
 ```
 
-### Qt工程配置
+### c++配置
 
 GCC的写法
 ```
@@ -48,7 +48,7 @@ QMAKE_CXXFLAGS += -stdlib=libstdc++
 QMAKE_LFLAGS += /usr/lib/libstdc++.6.dylib
 QMAKE_INFO_PLIST = YourInfo.plist
 ```
-仿Gyp，CMake的写法
+仿[GYP](http://peter517.github.io/2015/10/21/GYP%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%BB%80%E4%B9%88/)，CMake的写法
 ```
 HEADERS += your_header.h
 SOURCES += your_c_source.cpp
@@ -60,18 +60,15 @@ LIBS += YOUR_DEPEND_LIBS
 qt在xcode运行时会根据layout文件生成对应的代码
 
 ```
-QT_RUN_GENERATE_FILE_DIR = ./qt-run-generate-files  #临时文件目录
-UI_DIR +=  $$QT_RUN_GENERATE_FILE_DIR/ui
-RCC_DIR += $$QT_RUN_GENERATE_FILE_DIR/rc
+QT_RUN_GENERATE_FILE_DIR = ./qt-run-generate-files  #指定生成代码目录
+UI_DIR +=  $$QT_RUN_GENERATE_FILE_DIR/ui #UI代码
+RCC_DIR += $$QT_RUN_GENERATE_FILE_DIR/rc #资源代码
 OBJECTS_DIR += YOUR_BUILD_MODE
 MOC_DIR += $$QT_RUN_GENERATE_FILE_DIR/YOUR_BUILD_MODE
 ```
 
-
 ## YourApp.qrc
-App中用到的资源文件需要在这里面定义
-## YourApp.ui
-这个文件是xml格式，相当于android的layout，用来UI布局，如下例：
+App中用到的资源文件需要在这里面定义，用来UI布局，如下例：
 ```
 <RCC>
     <qresource prefix="/">
@@ -83,15 +80,17 @@ App中用到的资源文件需要在这里面定义
     </qresource>
 </RCC>
 ```
+## YourApp.ui
+这个文件是xml格式，相当于android的layout
 
 # 应用打包
 
-# macdeployqt
-利用qmake生成的App目录结构很简单，只有Contents下面只有Info.plist、MacOS、PkgInfo。
-执行macdeployqt命令后会增加Frameworks、PlugIns、Resources目录，会把对应的库拷贝到Frameworks下面，依赖的Resources拷贝到Resources下，但是有些依赖库和资源需要自己拷贝，比如opencv和sparkle
+## macdeployqt
+利用qmake生成的App目录结构很简单，Contents下面只有Info.plist、MacOS、PkgInfo。
+执行macdeployqt命令后会增加Frameworks、PlugIns、Resources目录，会把对应的库拷贝到Frameworks下面，依赖的资源拷贝到Resources下，但是有些依赖库和资源需要自己拷贝，比如opencv和sparkle
 
-#install_name_tool
-一些自己打包进来的库需要利用install_name_tool来进行依赖重连接，把之前依赖的系统路径改为应用当前路径，利用otool -L 可以查看一个二进制库的依赖项跟对应的路径
+## install_name_tool
+应用二进制依赖的库都是本地路径，这样发布的时候会找不到库，需要利用install_name_tool来进行依赖库的重连接，把之前依赖的系统路径改为应用当前路径，利用otool -L 可以查看一个二进制的依赖项跟对应的路径
 
 # 应用签名
 
@@ -137,7 +136,7 @@ QtCore.framework
 # 在线升级
 在线升级目前开源的成熟跨平台框架是Sparkle，提供generate_keys和sign_update工具，通过xml文件信息更新来进行在线升级。
 
-## sparkle流程
+## Sparkle在线升级流程
 利用generate_keys生成dsa_pub.pem、dsa_priv.pem--->利用sign_update用dsa_priv.pem对dmg进行签名--->将签名信息和应用版本信息、下载链接更新到线上xml中--->旧的客户端通过检测到xml更新进行在线升级
 
 ## Sparkle如何保障应用签名
@@ -146,7 +145,7 @@ QtCore.framework
 
 算法1和算法2是公开的，有DSA、RSA、DES等等，Sparkle的签名原理是openssl命令实现的DSA算法
 
-# Sparkle xml格式
+## Sparkle xml格式
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
