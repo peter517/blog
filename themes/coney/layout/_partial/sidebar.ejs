@@ -10,7 +10,7 @@
 <aside class="clearfix">
 <div id="authorInfo">
 	<% if(theme.author_img_enable == true){ %>
-		<div class="author-logo"></div>		
+		<div class="author-logo"></div>
 	<% } %>
 	<div class="social-list" class="clearfix">
 		<% if(theme.author.weibo){ %>
@@ -28,6 +28,7 @@
 		<% if(theme.author.zhihu){ %>
 		<a href="https://zhihu.com/people/<%=theme.author.zhihu %>" target="_blank" title="zhihu"></a>
 		<% } %>
+		<a href="http://blog.csdn.net/peter517" target="_blank" title="csdn">CSDN博客</a>
 	</div>
 </div>
 <% theme.widgets.forEach(function(widget){ %>

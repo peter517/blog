@@ -12,19 +12,86 @@ qt建立工程的三个关键文件：
 - YourApp.ui：管理布局
 
 ## YourApp.pro
-
-## YourApp.qrc
-
-## YourApp.ui
-
+在Mac上面生成xcode工程很简单，下面一行命令就行
 ```
 qmake -spec macx-xcode YourApp.pro
 ```
+pro文件跟gyp、CMake是一类工具，最大区别是内置QT的工程配置支持，比较重要的几个配置项
+
+### 基本信息
+```
+TARGET = YourAppName #App名字
+TEMPLATE = app #App类型
+QT  += core gui widgets #依赖的Qt库
+ICON = YourIcon.icns #Icon路径
+CONFIG += YOUR_BUILD_MODE #编译模式
+```
+### UI
+```
+FORMS += YourLayout.ui #布局文件
+```
+### Resources
+```
+RESOURCES += YourApp.qrc #资源文件
+RESFILES.files = files_add_to_resource_dir #需要加入资源目录的问题件
+RESFILES.path = Contents/Resources
+QMAKE_BUNDLE_DATA += RESFILES
+```
+
+### Qt工程配置
+
+GCC的写法
+```
+QMAKE_MAC_SDK = macosx10.11
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.11
+QMAKE_CXXFLAGS += -stdlib=libstdc++
+QMAKE_LFLAGS += /usr/lib/libstdc++.6.dylib
+QMAKE_INFO_PLIST = YourInfo.plist
+```
+仿Gyp，CMake的写法
+```
+HEADERS += your_header.h
+SOURCES += your_c_source.cpp
+OBJECTIVE_SOURCES += your_object_c_source.cpp
+INCLUDEPATH += YOUR_INCLUDE_PATH
+LIBS += YOUR_DEPEND_LIBS
+```
+### Qt生成文件配置
+qt在xcode运行时会根据layout文件生成对应的代码
+
+```
+QT_RUN_GENERATE_FILE_DIR = ./qt-run-generate-files  #临时文件目录
+UI_DIR +=  $$QT_RUN_GENERATE_FILE_DIR/ui
+RCC_DIR += $$QT_RUN_GENERATE_FILE_DIR/rc
+OBJECTS_DIR += YOUR_BUILD_MODE
+MOC_DIR += $$QT_RUN_GENERATE_FILE_DIR/YOUR_BUILD_MODE
+```
+
+
+## YourApp.qrc
+App中用到的资源文件需要在这里面定义
+## YourApp.ui
+这个文件是xml格式，相当于android的layout，用来UI布局，如下例：
+```
+<RCC>
+    <qresource prefix="/">
+        <file>app_images/add.png</file>
+    </qresource>
+    <qresource prefix="/value">
+        <file>en_US.qm</file>
+        <file>zh_CN.qm</file>
+    </qresource>
+</RCC>
+```
+
 # 应用打包
 
 # macdeployqt
 利用qmake生成的App目录结构很简单，只有Contents下面只有Info.plist、MacOS、PkgInfo。
-执行macdeployqt命令后会增加Frameworks、PlugIns、Resources目录，会把对应的库拷贝到Frameworks下面，依赖的Resources拷贝到Resources下，但是有些依赖库和资源需要自己拷贝
+执行macdeployqt命令后会增加Frameworks、PlugIns、Resources目录，会把对应的库拷贝到Frameworks下面，依赖的Resources拷贝到Resources下，但是有些依赖库和资源需要自己拷贝，比如opencv和sparkle
+
+#install_name_tool
+一些自己打包进来的库需要利用install_name_tool来进行依赖重连接，把之前依赖的系统路径改为应用当前路径，利用otool -L 可以查看一个二进制库的依赖项跟对应的路径
 
 # 应用签名
 
@@ -41,7 +108,28 @@ spctl -a -v need_to_be_sign_part
 ```
 所要做的事情很简单，用一个python脚本遍历所有framework、dylib并签名，最后对App二进制签名
 
-## 签名目录要求
+## Framework签名目录要求
+Framework的目录结构必须要符合Mac的规范才能正确签名，执行完macqtdeploy后Qt中的Framework目录只有Resources和Version，比如QtCore，目录结构如下
+```
+QtCore.framework
+  ---Versions
+    ---5
+      ---QtCore
+  ---Resources
+```
+需要调整为
+```
+QtCore.framework
+  ---Versions
+    ---5
+      ---QtCore
+      ---Resources
+        ---Info.plist        
+    ---Current -> 5
+  ---Resources -> Versions/Current/Resources
+  ---QtCore -> Versions/Current/QtCore
+```
+> Info.plist 是从QT的SDK中拿到
 
 # 应用dmg打包
 应用dmg打包可以通过macdeployqt，也可以通过dropdmg工具
@@ -74,7 +162,7 @@ spctl -a -v need_to_be_sign_part
 			<enclosure url="your_app_download_url"
 			           sparkle:version="20161123"
 			           sparkle:shortVersionString="1.1.0"
-			           sparkle:dsaSignature="MC0CFD+2Z3uk9GG0EoNhTUCQJ6U6WAnuAhUAqlbBoMIEhdcecPn9MWF1GxsilR4="
+			           sparkle:dsaSignature="dsaSignature"
 			           type="application/octet-stream"/>
 		</item>
 	</channel>
