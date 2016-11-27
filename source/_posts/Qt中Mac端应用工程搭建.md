@@ -1,5 +1,5 @@
-title: Qt中Mac端应用开发
-tags: [Qt Mac]
+title: Qt中Mac端应用工程搭建
+tags: [Qt，Mac]
 date: 2016-11-26 09:58:11
 description: 利用qmake、macdeployqt、sparkle、codesign工具开发可发布的Mac客户端
 ---
@@ -137,7 +137,7 @@ QtCore.framework
 在线升级目前开源的成熟跨平台框架是Sparkle，提供generate_keys和sign_update工具，通过xml文件信息更新来进行在线升级。
 
 ## Sparkle在线升级流程
-利用generate_keys生成dsa_pub.pem、dsa_priv.pem--->利用sign_update用dsa_priv.pem对dmg进行签名--->将签名信息和应用版本信息、下载链接更新到线上xml中--->旧的客户端通过检测到xml更新进行在线升级
+利用generate_keys生成dsa_pub.pem、dsa_priv.pem--->利用sign_update用dsa_priv.pem对dmg进行签名--->将签名信息、应用版本信息、下载链接更新到线上xml中--->旧客户端通过检测到xml更新进行在线升级
 
 ## Sparkle如何保障应用签名
 - 使用私钥dsa_priv.pem，对App进行计算，得出结果dsaSignature --- 算法1
