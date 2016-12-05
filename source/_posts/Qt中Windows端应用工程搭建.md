@@ -38,6 +38,18 @@ Function WelcomePage
 End
 ```
 
+### 翻页
+```
+Function Next_Page
+  IntCmp $R9 0 0 Move Move
+    StrCmp $R9 "X" 0 Move
+      StrCpy $R9 "120"
+  Move:
+  SendMessage $HWNDPARENT "0x408" "$R9" ""
+FunctionEnd
+```
+> 官方例子
+
 ### 生命周期
 .onInit --> .onGUIInit --> Pages -->  un.onInit --> un.onGUIInit  --> un.Pages
 ```
@@ -57,20 +69,8 @@ Function un.onGUIInit
 End
 ```
 
-### 翻页
-```
-Function Next_Page
-  IntCmp $R9 0 0 Move Move
-    StrCmp $R9 "X" 0 Move
-      StrCpy $R9 "120"
-  Move:
-  SendMessage $HWNDPARENT "0x408" "$R9" ""
-FunctionEnd
-```
-> 官方例子
-
 ## Shell风格
-NSIS中只有两个基本概念，变量和函数，和Shell很类似，变量从来源上分为系统变量、UI变量，函数分为系统函数和自定义函数
+NSIS从瀑布上执行流程，脚本中只有两个基本概念，变量和函数，和Shell很类似，变量从来源上分为系统变量、UI变量、用户自定义变量，函数分为系统函数和自定义函数
 
 ### 基本信息配置
 ```
@@ -108,15 +108,15 @@ FunctionEnd
 通过Pop和Push命令和系统、第三方插件方法进行数据交互，很汇编的写法，常用Pop方法获取系统调用结果。
 ### 判断互斥
 ```
-System::Call 'kernel32::CreateMutex(i 0, i 0, t "${INSTALL_NAME}") ?e'
+  System::Call 'kernel32::CreateMutex(i 0, i 0, t "${INSTALL_NAME}") ?e'
 	Pop $R0
 	StrCmp $R0 0 +3
-    MessageBox MB_OK "Already Running!"
-    Abort
+  MessageBox MB_OK "Already Running!"
+  Abort
 ```
 > Pop命令获取System::Call的结果，存放到$R0里面
 
-### 创建一个组件及其注册事件
+### 创建组件及其注册事件
 ```
   ${NSD_CreateButton} 454 13 14 14 ""
 	Pop $Bt_CloseDialog
