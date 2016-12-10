@@ -4,6 +4,8 @@ date: 2016-11-28 17:13:14
 description: Qt中PC端工程搭建、在线升级功能
 ---
 
+Qt作为跨平台UI开发框架，用c++实现，API也是类C的，很适合搭建一些集成Native SDK的演示环境，如果只是一些UI的原型展示，用Electron或者nwjs更快
+
 # 工程建立
 
 qt建立工程的三个关键文件：
