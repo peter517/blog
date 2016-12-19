@@ -131,7 +131,7 @@ GYP出了支持生成编译C的脚本外，还支持第三方模块执行的接�
             'action_name': 'run_fun_test',
                 'inputs': ['test/func_test_main.cc',],
                 'outputs': [ ' ' ],
-                'action': ['out/Release/fun_test'],
+                'action': ['bash','-ec','<(DEPTH)/out/Release/fun_test'],
         },],
     },
 ]
