@@ -1,7 +1,7 @@
 title: Android中商业化播放器需要的功能
 tags: [Android,MediaPlayer]
 date: 2017-02-09 14:53:26
-description:
+description:一个商业化的播放器的基本要素
 ---
 
 商业化的播放器除了提供Android系统播放器支持的功能外，还有广告播放，seekBar中的截图、播放能力配置等功能
@@ -52,16 +52,15 @@ description:
 ## 缓存功能
 能够根据业务需要缓存之前播放的数据
 
-
 # 性能要求
 
 ## 稳定性
-- Money时长：3*24
-- 长时间播放：3*24 
+- Money时长
+- 长时间播放
      
 ## 资源消耗
-- CPU：30~40%
-- 内存：150M
+- CPU
+- 内存
 
 ## 快速响应
 - 起播速度
